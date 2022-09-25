@@ -1,8 +1,13 @@
 package com.app.Controller;
 
+import com.app.Repository.HospitalRepository;
+import com.app.Repository.PoliceStationRepository;
+import com.app.Repository.UserRepository;
 import com.app.Service.HospitalService;
 import com.app.config.*;
 import com.app.model.Hospital;
+import com.app.model.PoliceStation;
+import com.app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,6 +35,10 @@ public class AuthenticationController {
 
     @Autowired
     private HospitalService hospitalService;
+    @Autowired
+    private PoliceStationRepository stationService;
+    @Autowired
+    private UserRepository userService;
 
 //    @GetMapping("/login")
 //    public ResponseEntity<?> checkIfAlreadyLoggedIn(HttpServletRequest request) {
@@ -91,12 +100,12 @@ public class AuthenticationController {
             String status = hospital.getStatus();
             response.setHeader("status",status);
         }else if (role[0].toString() == "ROLE_POLICESTATION"){
-            Hospital hospital = hospitalService.findHospitalByEmail(userDetails.getUsername());
-            String status = hospital.getStatus();
+            PoliceStation policeStation = stationService.findPoliceStationByEmail(userDetails.getUsername());
+            String status = policeStation.getStatus();
             response.setHeader("status",status);
         }else if (role[0].toString() == "ROLE_USER"){
-            Hospital hospital = hospitalService.findHospitalByEmail(userDetails.getUsername());
-            String status = hospital.getStatus();
+            User user = userService.findUserByEmail(userDetails.getUsername());
+            String status = user.getStatus();
             response.setHeader("status",status);
         }
         String token = this.jwtUtil.generateToken(userDetails);

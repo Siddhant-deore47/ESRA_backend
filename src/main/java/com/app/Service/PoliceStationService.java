@@ -1,12 +1,16 @@
 package com.app.Service;
 
+import com.app.Repository.HospitalCoordinatesRepository;
+import com.app.Repository.HospitalRepository;
 import com.app.Repository.PoliceStationRepository;
 import com.app.Repository.StationCoordinatesRepository;
 import com.app.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PoliceStationService {
@@ -15,6 +19,12 @@ public class PoliceStationService {
     private PoliceStationRepository policeStationRepository;
     @Autowired
     private StationCoordinatesRepository stationCoordinatesRepository;
+    @Autowired
+    private PoliceStationRepository stationRepository;
+    @Autowired
+    private HospitalRepository hospitalRepository;
+    @Autowired
+    private HospitalCoordinatesRepository hospitalCoordinatesRepository;
 
     public PoliceStation processFirstLogin(PoliceStation ps, byte[] imageFile, String cpassword,
                                     StationCoordinates coordinates) {
@@ -26,15 +36,15 @@ public class PoliceStationService {
         return policeStationRepository.save(p);
     }
 
-    public PoliceStation updateStation(String station_name, String mobile, String alt_mobile, String email, Addresses address,
-                                PoliceStation ps) {
+    public ResponseEntity<PoliceStation> updateStation(String station_name, String mobile, String alt_mobile, String email, Addresses address,
+                                                       PoliceStation ps) {
         PoliceStation p = policeStationRepository.findPoliceStationById(ps.getId());
         p.setEmail(email);
         p.setAltMobileNo(alt_mobile);
         p.setMobileNo(mobile);
         p.setName(station_name);
         p.setPoliceStationAddress(address);
-        return policeStationRepository.save(p);
+        return ResponseEntity.of(Optional.of(policeStationRepository.save(p))) ;
     }
 
     public static StationCoordinates findnearestStationCoordinates(double lat, List<StationCoordinates> list) {
@@ -47,7 +57,7 @@ public class PoliceStationService {
         return null;
     }
 
-    public static HospitalCoordinates findnearestStationCoordinates1(double lat, List<HospitalCoordinates> list) {
+    public static HospitalCoordinates findnearestHospitalCoordinates1(double lat, List<HospitalCoordinates> list) {
         String latstring = "" + lat;
         for (HospitalCoordinates a : list) {
             String searchString = "" + a.getLatitude();
@@ -125,27 +135,27 @@ public class PoliceStationService {
         System.out.println(nearestlatitude);
         StationCoordinates nearestcordinates = findnearestStationCoordinates(nearestlatitude, pcList1);
         System.out.println(nearestcordinates);
-        String JpqlP = "select p from PoliceStation p where p.coordinates=:nearestcoordinates";
-        return null;
+        return stationRepository.findPoliceStationByCoordinates(nearestcordinates);
     }
 
     public List<Accidents> fetchAccidentbyID(PoliceStation p) {
-        String jpql = "select a from Accidents a where a.nearestPoliceStation=:p";
-        return null;
+        return policeStationRepository.findPoliceStationByNearestCoordinates(p);
     }
 
     public Hospital fetchHospitalByCoordinates(Double latitude, Double longitude) {
-        String jpqlc1 = "select c from HospitalCoordinates c";
 
-        List<HospitalCoordinates> pcList1 = null;
+        List<HospitalCoordinates> pcList1 = hospitalCoordinatesRepository.findAll();
         System.out.println(pcList1);
 
         Double[] array = convertarray1(pcList1);
         double nearestlatitude = findClosest(array, latitude);
         System.out.println("hospital" + nearestlatitude);
-        HospitalCoordinates nearestcordinates = findnearestStationCoordinates1(nearestlatitude, pcList1);
+        HospitalCoordinates nearestcordinates = findnearestHospitalCoordinates1(nearestlatitude, pcList1);
         System.out.println("hospital" + nearestcordinates);
-        String JpqlP = "select p from Hospital p where p.hospitalCoordinates=:nearestcoordinates";
-        return null;
+        return hospitalRepository.findHospitalByCoordinates(nearestcordinates);
+    }
+
+    public PoliceStation fetchPoliceStationByEmail(String email) {
+        return policeStationRepository.findPoliceStationByEmail(email);
     }
 }

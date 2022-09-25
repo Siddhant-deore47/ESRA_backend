@@ -2,6 +2,7 @@ package com.app.Service;
 
 import com.app.Repository.*;
 import com.app.model.*;
+import javafx.scene.canvas.GraphicsContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,8 @@ public class AdminService {
     private FeedbackRepository feedbackRepository;
     @Autowired
     private AccidentRepository accidentRepository;
+    @Autowired
+    private PoliceStationRepository policeStationRepository;
 
     public User registerUser(User user) {
         try {
@@ -72,15 +75,14 @@ public class AdminService {
         hospitalRepository.delete(hospital);
         return "Hospital Removed Successfully";
     }
-//    public String registerPoliceStation(PoliceStation policeStation, Addresses address) {
-//        policeStation.setPoliceStationAddress(address);
-//        policeStationRepository.save(policeStation);
-//        return "Police Station Registered Successfully";
-//    }
-//
-//    public List<PoliceStation> fetchStationsList() {
-//        return policeStationRepository.findAll();
-//    }
+    public PoliceStation registerPoliceStation(PoliceStation policeStation) {
+
+        return policeStationRepository.save(policeStation);
+    }
+
+    public List<PoliceStation> fetchStationsList() {
+        return policeStationRepository.findAll();
+    }
 //
 //    public String toggleStationStatus(int sid) {
 //        PoliceStation p = policeStationRepository.findPoliceStationById(sid);
@@ -94,15 +96,15 @@ public class AdminService {
 //        return null;
 //    }
 //
-//    public PoliceStation findStationById(int sid) {
-//        return policeStationRepository.findPoliceStationById(sid);
-//    }
+    public PoliceStation findStationById(int sid) {
+        return policeStationRepository.findPoliceStationById(sid);
+    }
 //
-//    public String removeStation(int sid) {
-//        PoliceStation p = policeStationRepository.findPoliceStationById(sid);
-//        policeStationRepository.delete(p);
-//        return "Police Station Removed Successfully";
-//    }
+    public String removeStation(int sid) {
+        PoliceStation p = policeStationRepository.findPoliceStationById(sid);
+        policeStationRepository.delete(p);
+        return "Police Station Removed Successfully";
+    }
 
     public List<Feedback> fetchAllFeedback() {
         return feedbackRepository.findAll();
@@ -115,11 +117,8 @@ public class AdminService {
     public List<Hospital> fetchHospitalList() {
         List<Hospital> hospitalList = new ArrayList<>();
         List<Hospital> hospitals = hospitalRepository.findAll();
-        for (Hospital h : hospitals) {
-            if (h.getImage() != null) {
-                hospitalList.add(h);
-            }
-        }
-        return hospitalList;
+        if (!hospitals.isEmpty())
+            return hospitals;
+        return null;
     }
 }

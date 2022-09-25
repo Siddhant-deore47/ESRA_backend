@@ -2,16 +2,18 @@ package com.app.Controller;
 
 import com.app.Service.HospitalService;
 import com.app.Service.LoginService;
-import com.app.model.Addresses;
-import com.app.model.Hospital;
-import com.app.model.HospitalCoordinates;
+import com.app.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/Hospital")
@@ -33,25 +35,22 @@ public class HospitalController {
     }
 
     @PostMapping("/firstLogin")
-    public String processFirstLogin(@RequestParam String npassword, @RequestParam String cpassword,
-                                    @RequestParam MultipartFile image, @RequestParam String latitude, @RequestParam String longitude,
-                                    Model modelMap,HttpSession hs) {
+    public ResponseEntity<Hospital> processFirstLogin(Authentication authentication, @RequestParam String npassword, @RequestParam String cpassword,
+                                                           @RequestParam MultipartFile image, @RequestParam String latitude, @RequestParam String longitude) {
         try {
             if (npassword.equals(cpassword)) {
                 HospitalCoordinates coordinates = new HospitalCoordinates(Double.parseDouble(latitude),
                         Double.parseDouble(longitude));
                 byte[] imageFile = image.getBytes();
-                Hospital h = (Hospital) hs.getAttribute("userDetails");
-                modelMap.addAttribute("message",
-                        hospitalService.processFirstLogin(h, imageFile, cpassword, coordinates));
-                return "redirect:/";
+                String email = authentication.getName();
+                Hospital h = hospitalService.findHospitalByEmail(email);
+                return ResponseEntity.of(Optional.of(hospitalService.processFirstLogin(h, imageFile, cpassword, coordinates)));
+
             } else {
-                modelMap.addAttribute("error", "Password Not Matched");
-                return "/Hospital/firstLogin";
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
         } catch (Exception e) {
-            modelMap.addAttribute("error", "Internal Server Error");
-            return "/Hospital/firstLogin";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

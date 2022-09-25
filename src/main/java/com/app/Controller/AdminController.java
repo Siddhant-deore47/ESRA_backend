@@ -1,10 +1,7 @@
 package com.app.Controller;
 
 import com.app.Service.AdminService;
-import com.app.model.Accidents;
-import com.app.model.Feedback;
-import com.app.model.Hospital;
-import com.app.model.User;
+import com.app.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +43,20 @@ public class AdminController {
     @GetMapping("/deleteHospital/{hid}")
     public String removeHospital(@PathVariable int hid) {
         return adminService.removeHospital(hid);
+    }
+    @PostMapping("/addNewPoliceStation")
+    public PoliceStation addNewPoliceStation(@RequestBody PoliceStation policeStation){
+        return adminService.registerPoliceStation(policeStation);
+    }
+
+    @GetMapping("/availablePoliceStations")
+    public List<PoliceStation> showPoliceStation() {
+        return adminService.fetchStationsList();
+    }
+
+    @GetMapping("/deletePoliceStation/{pid}")
+    public String removePoliceStation(@PathVariable int pid) {
+        return adminService.removeStation(pid);
     }
 //
 //    @GetMapping("/availablestations")
