@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin("*")
 public class ExtraController {
 
     @Autowired
@@ -39,15 +40,20 @@ public class ExtraController {
     }
 
     @PostMapping("/informaccident")
-    public ResponseEntity<?> informAccident(@RequestParam String name, @RequestParam String vehicalno,
-                                         @RequestParam String latitude, @RequestParam String longitude, @RequestParam String count) {
+    public ResponseEntity<?> informAccident(@RequestBody Report report) {
+
+        String name = report.getusername();
+        String vehicleNo = report.getVehicleNo();
+        String latitude = report.getLatitude();
+        String longitude = report.getLongitude();
+        String count = report.getCount();
         AccidentCoordinates ac = new AccidentCoordinates(Double.parseDouble(latitude), Double.parseDouble(longitude));
         PoliceStation nearestStation = stationService.fetchPoliceStationByCoordinates(Double.parseDouble(latitude),Double.parseDouble(longitude));
         Hospital nearestHospital = stationService.fetchHospitalByCoordinates(Double.parseDouble(latitude),Double.parseDouble(longitude));
         System.out.println(nearestStation);
         AccidentCoordinates c = new AccidentCoordinates(Double.parseDouble(latitude),
                 Double.parseDouble(longitude));
-        Accidents a = new Accidents(name, vehicalno, ac, Integer.parseInt(count), nearestStation);
+        Accidents a = new Accidents(name, vehicleNo, ac, count, nearestStation);
         System.out.println(a);
         userService.addAccident(a, c);
         return ResponseEntity.of(Optional.of(nearestHospital));

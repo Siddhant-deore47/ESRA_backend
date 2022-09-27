@@ -1,5 +1,6 @@
 package com.app.config;
 
+import com.app.Exception.UserNotFoundException;
 import com.app.Repository.AdminRepository;
 import com.app.Repository.HospitalRepository;
 import com.app.Repository.PoliceStationRepository;
@@ -35,7 +36,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		} else if (policeStationRepository.findPoliceStationByEmail(email) != null) {
 			return new CustomUserDetails(policeStationRepository.findPoliceStationByEmail(email));
 		} else {
-			throw new UsernameNotFoundException("No user");
+			throw new UserNotFoundException("No user");
 		}
 	}
 }

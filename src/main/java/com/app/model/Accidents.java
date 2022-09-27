@@ -15,7 +15,7 @@ public class Accidents extends BaseEntity {
 	private AccidentCoordinates coordinates;
 
 	@Column(name = "total_passengers")
-	private int passengerCount;
+	private String passengerCount;
 	@OneToOne
 	@JoinColumn(name = "station_ID")
 	private PoliceStation nearestPoliceStation;
@@ -27,7 +27,7 @@ public class Accidents extends BaseEntity {
 		super();
 	}
 
-	public Accidents(String username, String vehicalNo, AccidentCoordinates coordinates, int passengerCount,
+	public Accidents(String username, String vehicalNo, AccidentCoordinates coordinates, String passengerCount,
 			PoliceStation nearestPoliceStation) {
 		super();
 		this.username = username;
@@ -61,11 +61,11 @@ public class Accidents extends BaseEntity {
 		this.coordinates = coordinates;
 	}
 
-	public int getPassengerCount() {
+	public String getPassengerCount() {
 		return passengerCount;
 	}
 
-	public void setPassengerCount(int passengerCount) {
+	public void setPassengerCount(String passengerCount) {
 		this.passengerCount = passengerCount;
 	}
 

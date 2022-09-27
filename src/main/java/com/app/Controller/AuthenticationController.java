@@ -1,16 +1,19 @@
 package com.app.Controller;
 
+import com.app.Repository.AdminRepository;
 import com.app.Repository.HospitalRepository;
 import com.app.Repository.PoliceStationRepository;
 import com.app.Repository.UserRepository;
 import com.app.Service.HospitalService;
 import com.app.config.*;
+import com.app.model.Admin;
 import com.app.model.Hospital;
 import com.app.model.PoliceStation;
 import com.app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,6 +42,8 @@ public class AuthenticationController {
     private PoliceStationRepository stationService;
     @Autowired
     private UserRepository userService;
+    @Autowired
+    private AdminRepository adminService;
 
 //    @GetMapping("/login")
 //    public ResponseEntity<?> checkIfAlreadyLoggedIn(HttpServletRequest request) {
@@ -85,7 +90,7 @@ public class AuthenticationController {
 
         try {
             this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequest.getUsername(), jwtRequest.getPassword()));
-        } catch (UsernameNotFoundException e) {
+        } catch (UsernameNotFoundException | BadCredentialsException e) {
             e.printStackTrace();
             throw new Exception("Bad credentials");
         }
@@ -94,24 +99,14 @@ public class AuthenticationController {
         Object[] role = userDetails.getAuthorities().toArray();
         System.out.println(role[0].toString());
 
-//        response.setHeader("role",role[0].toString());
-        if(role[0].toString() == "ROLE_HOSPITAL"){
-            Hospital hospital = hospitalService.findHospitalByEmail(userDetails.getUsername());
-            String status = hospital.getStatus();
-            response.setHeader("status",status);
-        }else if (role[0].toString() == "ROLE_POLICESTATION"){
-            PoliceStation policeStation = stationService.findPoliceStationByEmail(userDetails.getUsername());
-            String status = policeStation.getStatus();
-            response.setHeader("status",status);
-        }else if (role[0].toString() == "ROLE_USER"){
-            User user = userService.findUserByEmail(userDetails.getUsername());
-            String status = user.getStatus();
-            response.setHeader("status",status);
-        }
         String token = this.jwtUtil.generateToken(userDetails);
         System.out.println("JWT " + token);
+        JWTResponse jwtResponse = new JWTResponse();
+        jwtResponse.setToken(token);
+        jwtResponse.setUsername(userDetails.getUsername());
+        jwtResponse.setPassword(userDetails.getPassword());
 
-        return ResponseEntity.ok(new JWTResponse(token));
+        return ResponseEntity.ok(jwtResponse);
     }
 
     @GetMapping("/current-user")
