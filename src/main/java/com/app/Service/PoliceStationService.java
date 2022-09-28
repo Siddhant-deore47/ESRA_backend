@@ -29,7 +29,7 @@ public class PoliceStationService {
     public PoliceStation processFirstLogin(PoliceStation ps, byte[] imageFile, String cpassword,
                                     StationCoordinates coordinates) {
         PoliceStation p = policeStationRepository.findPoliceStationById(ps.getId());
-        p.setImage(imageFile);
+//        p.setImage(imageFile);
         p.setPassword(cpassword);
         p.setCoordinates(coordinates);
         p.setStatus("Active");

@@ -1,5 +1,6 @@
 package com.app.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.tomcat.util.codec.binary.Base64;
 
 import javax.persistence.*;
@@ -23,10 +24,12 @@ public class PoliceStation extends BaseEntity implements BaseUser {
 //	private byte[] image;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "station_address_id")
+	@JsonProperty("policeStationAddress")
 	private Addresses policeStationAddress;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cordinate_id")
+	@JsonProperty("coordinates")
 	private StationCoordinates coordinates;
 
 	public PoliceStation() {
