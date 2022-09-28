@@ -16,11 +16,11 @@ public class PoliceStation extends BaseEntity implements BaseUser {
 	private String mobileNo;
 	private String altMobileNo;
 	private String status;
-	@Transient
-	private String imgUtility;
-	@Lob
-	@Column(name = "profile_image", length = 10000000)
-	private byte[] image;
+//	@Transient
+//	private String imgUtility;
+//	@Lob
+//	@Column(name = "profile_image", length = 10000000)
+//	private byte[] image;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "station_address_id")
 	private Addresses policeStationAddress;
@@ -92,13 +92,13 @@ public class PoliceStation extends BaseEntity implements BaseUser {
 		this.status = status;
 	}
 
-	public byte[] getImage() {
-		return image;
-	}
-
-	public void setImage(byte[] image) {
-		this.image = image;
-	}
+//	public byte[] getImage() {
+//		return image;
+//	}
+//
+//	public void setImage(byte[] image) {
+//		this.image = image;
+//	}
 
 	public Addresses getPoliceStationAddress() {
 		return policeStationAddress;
@@ -108,12 +108,12 @@ public class PoliceStation extends BaseEntity implements BaseUser {
 		this.policeStationAddress = policeStationAddress;
 	}
 
-	public String getImgUtility() throws UnsupportedEncodingException {
-
-		byte[] encodeBase64 = Base64.encodeBase64(getImage());
-		String base64Encoded = new String(encodeBase64, "UTF-8");
-		return base64Encoded;
-	}
+//	public String getImgUtility() throws UnsupportedEncodingException {
+//
+//		byte[] encodeBase64 = Base64.encodeBase64(getImage());
+//		String base64Encoded = new String(encodeBase64, "UTF-8");
+//		return base64Encoded;
+//	}
 
 	public StationCoordinates getCoordinates() {
 		return coordinates;
@@ -126,7 +126,7 @@ public class PoliceStation extends BaseEntity implements BaseUser {
 	@Override
 	public String toString() {
 		return "PoliceStation [name=" + name + ", email=" + email + ", password=" + password + ", mobileNo=" + mobileNo
-				+ ", altMobileNo=" + altMobileNo + ", status=" + status + ", image=" + Arrays.toString(image)
+				+ ", altMobileNo=" + altMobileNo + ", status=" + status
 				+ ", policeStationAddress=" + policeStationAddress + ", coordinates=" + coordinates + "]";
 	}
 

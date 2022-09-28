@@ -105,6 +105,7 @@ public class AuthenticationController {
         jwtResponse.setToken(token);
         jwtResponse.setUsername(userDetails.getUsername());
         jwtResponse.setPassword(userDetails.getPassword());
+        jwtResponse.setRole(role[0].toString());
 
         return ResponseEntity.ok(jwtResponse);
     }

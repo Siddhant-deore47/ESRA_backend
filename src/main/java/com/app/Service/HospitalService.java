@@ -14,7 +14,6 @@ public class HospitalService {
     private HospitalRepository hospitalRepository;
     public Hospital processFirstLogin(Hospital h, byte[] imageFile, String cpassword, HospitalCoordinates coordinates) {
         Hospital hospital = hospitalRepository.findHospitalById(h.getId());
-        hospital.setImage(imageFile);
         hospital.setPassword(cpassword);
         hospital.setHospitalCoordinates(coordinates);
         hospital.setStatus("Active");

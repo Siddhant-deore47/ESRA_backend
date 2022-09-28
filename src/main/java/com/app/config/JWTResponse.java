@@ -6,6 +6,8 @@ public class JWTResponse {
 	private String username;
 	private String password;
 
+	private String role;
+
 	public JWTResponse() {}
 
 	public JWTResponse(String token, String username, String password) {
@@ -37,6 +39,12 @@ public class JWTResponse {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	
-	
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 }

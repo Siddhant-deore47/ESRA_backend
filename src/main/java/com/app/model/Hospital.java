@@ -1,5 +1,6 @@
 package com.app.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.tomcat.util.codec.binary.Base64;
 
 import javax.persistence.*;
@@ -14,19 +15,21 @@ public class Hospital extends BaseEntity implements BaseUser {
 	private String email;
 	private String password;
 	private String mobile;
-	private String status;
+	private String status = "Active";
 	private String altMobile;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "hospital_address_id")
+	@JsonProperty("hospitalAddress")
 	private Addresses hospitalAddress;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "coordinates_id")
+	@JsonProperty("hospitalCoordinates")
 	private HospitalCoordinates hospitalCoordinates;
-	@Transient
-	private String imgUtility;
-	@Lob
-	@Column(name = "profile_image", length = 10000000)
-	private byte[] image;
+//	@Transient
+//	private String imgUtility = null;
+//	@Lob
+//	@Column(name = "profile_image", length = 10000000)
+//	private byte[] image = null;
 
 	public Hospital() {
 		super();
@@ -66,12 +69,12 @@ public class Hospital extends BaseEntity implements BaseUser {
 		this.password = password;
 	}
 
-	public String getImgUtility() throws UnsupportedEncodingException {
-
-		byte[] encodeBase64 = Base64.encodeBase64(getImage());
-		String base64Encoded = new String(encodeBase64, "UTF-8");
-		return base64Encoded;
-	}
+//	public String getImgUtility() throws UnsupportedEncodingException {
+//
+//		byte[] encodeBase64 = Base64.encodeBase64(getImage());
+//		String base64Encoded = new String(encodeBase64, "UTF-8");
+//		return base64Encoded;
+//	}
 
 	public String getMobile() {
 		return mobile;
@@ -97,13 +100,13 @@ public class Hospital extends BaseEntity implements BaseUser {
 		this.hospitalAddress = hospitalAddress;
 	}
 
-	public byte[] getImage() {
-		return image;
-	}
-
-	public void setImage(byte[] image) {
-		this.image = image;
-	}
+//	public byte[] getImage() {
+//		return image;
+//	}
+//
+//	public void setImage(byte[] image) {
+//		this.image = image;
+//	}
 
 	public String getStatus() {
 		return status;
@@ -123,9 +126,15 @@ public class Hospital extends BaseEntity implements BaseUser {
 
 	@Override
 	public String toString() {
-		return "Hospital [name=" + name + ", email=" + email + ", password=" + password + ", mobile=" + mobile
-				+ ", status=" + status + ", altMobile=" + altMobile + ", hospitalAddress=" + hospitalAddress
-				+ ", hospitalCoordinates=" + hospitalCoordinates + ", image=" + Arrays.toString(image) + "]";
+		return "Hospital{" +
+				"name='" + name + '\'' +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				", mobile='" + mobile + '\'' +
+				", status='" + status + '\'' +
+				", altMobile='" + altMobile + '\'' +
+				", hospitalAddress=" + hospitalAddress +
+				", hospitalCoordinates=" + hospitalCoordinates +
+				'}';
 	}
-
 }

@@ -3,6 +3,7 @@ package com.app.Controller;
 import com.app.Service.AdminService;
 import com.app.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class AdminController {
     }
 
     //Hospital
-    @PostMapping("/addNewHospital")
+    @PostMapping(value = "/addNewHospital",consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public Hospital addNewHospital(@RequestBody Hospital hospital){
         return adminService.registerHospital(hospital);
     }
@@ -44,7 +45,7 @@ public class AdminController {
     public String removeHospital(@PathVariable int hid) {
         return adminService.removeHospital(hid);
     }
-    @PostMapping("/addNewPoliceStation")
+    @PostMapping(value = "/addNewPoliceStation",consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
     public PoliceStation addNewPoliceStation(@RequestBody PoliceStation policeStation){
         return adminService.registerPoliceStation(policeStation);
     }
