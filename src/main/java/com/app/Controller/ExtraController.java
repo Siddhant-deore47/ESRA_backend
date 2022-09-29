@@ -52,13 +52,12 @@ public class ExtraController {
         PoliceStation nearestStation = stationService.fetchPoliceStationByCoordinates(Double.parseDouble(latitude),Double.parseDouble(longitude));
         Hospital nearestHospital = stationService.fetchHospitalByCoordinates(Double.parseDouble(latitude),Double.parseDouble(longitude));
         System.out.println(nearestStation);
+        System.out.println("Hospital" + nearestHospital);
         AccidentCoordinates c = new AccidentCoordinates(Double.parseDouble(latitude),
                 Double.parseDouble(longitude));
         Accidents a = new Accidents(name, vehicleNo, ac, count, nearestStation);
         System.out.println(a);
         userService.addAccident(a, c);
-//        emailService.sendSimpleEmail(nearestStationEmail,"Inform Accident",
-//                "Accident Reported at location : latitude = "+latitude+"longitude = "+longitude+ "Passenger Involved = "+count);
         return ResponseEntity.of(Optional.of(nearestHospital));
     }
 
