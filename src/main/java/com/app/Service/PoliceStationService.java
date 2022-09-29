@@ -26,17 +26,7 @@ public class PoliceStationService {
     @Autowired
     private HospitalCoordinatesRepository hospitalCoordinatesRepository;
 
-    public PoliceStation processFirstLogin(PoliceStation ps, byte[] imageFile, String cpassword,
-                                    StationCoordinates coordinates) {
-        PoliceStation p = policeStationRepository.findPoliceStationById(ps.getId());
-//        p.setImage(imageFile);
-        p.setPassword(cpassword);
-        p.setCoordinates(coordinates);
-        p.setStatus("Active");
-        return policeStationRepository.save(p);
-    }
-
-    public ResponseEntity<PoliceStation> updateStation(String station_name, String mobile, String alt_mobile, String email, Addresses address,
+    public PoliceStation updateStation(String station_name, String mobile, String alt_mobile, String email, Addresses address,
                                                        PoliceStation ps) {
         PoliceStation p = policeStationRepository.findPoliceStationById(ps.getId());
         p.setEmail(email);
@@ -44,7 +34,7 @@ public class PoliceStationService {
         p.setMobileNo(mobile);
         p.setName(station_name);
         p.setPoliceStationAddress(address);
-        return ResponseEntity.of(Optional.of(policeStationRepository.save(p))) ;
+        return policeStationRepository.save(p);
     }
 
     public static StationCoordinates findnearestStationCoordinates(double lat, List<StationCoordinates> list) {
@@ -141,6 +131,9 @@ public class PoliceStationService {
     public List<Accidents> fetchAccidentbyID(PoliceStation p) {
         return policeStationRepository.findPoliceStationByNearestCoordinates(p);
     }
+    public List<Accidents> fetchAccidentbyEmail(PoliceStation p) {
+        return policeStationRepository.findPoliceStationByNearestCoordinates(p);
+    }
 
     public Hospital fetchHospitalByCoordinates(Double latitude, Double longitude) {
 
@@ -156,6 +149,6 @@ public class PoliceStationService {
     }
 
     public PoliceStation fetchPoliceStationByEmail(String email) {
-        return policeStationRepository.findPoliceStationByEmail(email);
+        return policeStationRepository.findByEmail(email);
     }
 }

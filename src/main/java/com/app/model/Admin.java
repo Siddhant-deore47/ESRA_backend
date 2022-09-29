@@ -10,7 +10,7 @@ public class Admin extends BaseEntity implements BaseUser {
 
 	@Column(name = "admin_name", length = 100)
 	private String name;
-	@Column(name = "admin_email", length = 100)
+	@Column(name = "admin_email", length = 100, unique = true)
 	private String email;
 
 	private String password;

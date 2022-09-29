@@ -12,6 +12,8 @@ public interface HospitalRepository extends JpaRepository<Hospital,Integer> {
     @Query("select h from Hospital h where h.email =: email")
     Hospital findHospitalByEmail(String email);
 
+    Hospital findByEmail(String email);
+
     @Query("select h from Hospital h where h.id =: hid")
     Hospital findHospitalById(int hid);
     @Query("select h from Hospital h where h.hospitalCoordinates=:nearestcoordinates")

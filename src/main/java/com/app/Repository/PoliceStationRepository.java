@@ -14,6 +14,9 @@ public interface PoliceStationRepository extends JpaRepository<PoliceStation,Int
     @Query("select p from PoliceStation p where p.email =: email")
     PoliceStation findPoliceStationByEmail(String email);
 
+
+    PoliceStation findByEmail(String email);
+
     @Query("select p from PoliceStation p where p.id =: id")
     PoliceStation findPoliceStationById(int id);
 

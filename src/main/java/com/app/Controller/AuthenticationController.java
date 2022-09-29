@@ -96,6 +96,7 @@ public class AuthenticationController {
         }
 
         UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(jwtRequest.getUsername());
+        System.out.println(userDetails);
         Object[] role = userDetails.getAuthorities().toArray();
         System.out.println(role[0].toString());
 

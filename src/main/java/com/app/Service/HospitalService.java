@@ -1,11 +1,14 @@
 package com.app.Service;
 
 import com.app.Repository.HospitalRepository;
+import com.app.model.Accidents;
 import com.app.model.Addresses;
 import com.app.model.Hospital;
 import com.app.model.HospitalCoordinates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class HospitalService {

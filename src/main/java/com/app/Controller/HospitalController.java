@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/Hospital")
+@RequestMapping("/api/v1/hospital")
 @CrossOrigin("*")
 public class HospitalController {
 
@@ -52,16 +52,6 @@ public class HospitalController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-    }
-
-    @GetMapping("/Dashboard")
-    public String showDashboard() {
-        return "/Hospital/Dashboard";
-    }
-
-    @GetMapping("/hospitalprofile")
-    public String showHospitalProfile() {
-        return "/Hospital/hospitalprofile";
     }
 
     @PostMapping("/hospitalprofile")

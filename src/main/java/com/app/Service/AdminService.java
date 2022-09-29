@@ -4,6 +4,8 @@ import com.app.Repository.*;
 import com.app.model.*;
 import javafx.scene.canvas.GraphicsContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -25,6 +27,9 @@ public class AdminService {
     private AccidentRepository accidentRepository;
     @Autowired
     private PoliceStationRepository policeStationRepository;
+
+
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public User registerUser(User user) {
         try {
@@ -50,6 +55,8 @@ public class AdminService {
     }
 
     public Hospital registerHospital(Hospital hospital) {
+        String encodedPassword = this.passwordEncoder.encode(hospital.getPassword());
+        hospital.setPassword(encodedPassword);
         return hospitalRepository.save(hospital);
     }
 
@@ -76,7 +83,8 @@ public class AdminService {
         return "Hospital Removed Successfully";
     }
     public PoliceStation registerPoliceStation(PoliceStation policeStation) {
-
+        String encodedPassword = this.passwordEncoder.encode(policeStation.getPassword());
+        policeStation.setPassword(encodedPassword);
         return policeStationRepository.save(policeStation);
     }
 

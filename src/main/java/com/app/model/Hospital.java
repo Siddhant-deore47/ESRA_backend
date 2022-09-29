@@ -12,6 +12,7 @@ import java.util.Arrays;
 public class Hospital extends BaseEntity implements BaseUser {
 
 	private String name;
+	@Column(length = 100, unique = true)
 	private String email;
 	private String password;
 	private String mobile;

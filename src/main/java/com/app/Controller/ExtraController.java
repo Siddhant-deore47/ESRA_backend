@@ -1,6 +1,7 @@
 package com.app.Controller;
 
 
+import com.app.Service.EmailService;
 import com.app.Service.FeedbackService;
 import com.app.Service.PoliceStationService;
 import com.app.Service.UserService;
@@ -56,6 +57,8 @@ public class ExtraController {
         Accidents a = new Accidents(name, vehicleNo, ac, count, nearestStation);
         System.out.println(a);
         userService.addAccident(a, c);
+//        emailService.sendSimpleEmail(nearestStationEmail,"Inform Accident",
+//                "Accident Reported at location : latitude = "+latitude+"longitude = "+longitude+ "Passenger Involved = "+count);
         return ResponseEntity.of(Optional.of(nearestHospital));
     }
 
