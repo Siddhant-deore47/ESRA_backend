@@ -78,7 +78,7 @@ public class AdminService {
     }
 
     public String removeHospital(int hid) {
-        Hospital hospital = hospitalRepository.findHospitalById(hid);
+        Hospital hospital = hospitalRepository.findById(hid);
         hospitalRepository.delete(hospital);
         return "Hospital Removed Successfully";
     }
@@ -109,7 +109,7 @@ public class AdminService {
     }
 //
     public String removeStation(int sid) {
-        PoliceStation p = policeStationRepository.findPoliceStationById(sid);
+        PoliceStation p = policeStationRepository.findById(sid);
         policeStationRepository.delete(p);
         return "Police Station Removed Successfully";
     }

@@ -43,6 +43,7 @@ public class AdminController {
 
     @GetMapping("/deleteHospital/{hid}")
     public String removeHospital(@PathVariable int hid) {
+
         return adminService.removeHospital(hid);
     }
     @PostMapping(value = "/addNewPoliceStation",consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })

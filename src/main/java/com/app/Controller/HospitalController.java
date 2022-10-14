@@ -29,10 +29,6 @@ public class HospitalController {
     public HospitalController() {
     }
 
-    @GetMapping("/firstLogin")
-    public String showFirstLogin() {
-        return "/Hospital/firstLogin";
-    }
 
     @PostMapping("/firstLogin")
     public ResponseEntity<Hospital> processFirstLogin(Authentication authentication, @RequestParam String npassword, @RequestParam String cpassword,
@@ -52,24 +48,6 @@ public class HospitalController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-    }
-
-    @PostMapping("/hospitalprofile")
-    public String processUpdateProfile(@RequestParam String hospital_name, @RequestParam String mobile,
-                                       @RequestParam String alt_mobile, @RequestParam String email, @RequestParam String city,
-                                       @RequestParam String state, @RequestParam String district, @RequestParam String add_ln,
-                                       @RequestParam int pin_code, @RequestParam String country, HttpSession hs, Model modelMap) {
-        Hospital h = (Hospital) hs.getAttribute("userDetails");
-        Addresses address = new Addresses(city, district, state, country, add_ln, pin_code);
-        modelMap.addAttribute("success",
-                hospitalService.updateHospital(hospital_name, mobile, alt_mobile, email, address, h));
-        hs.setAttribute("userDetails", loginService.validateHospital(email, h.getPassword()));
-        return "redirect:/Hospital/hospitalprofile";
-    }
-
-    @GetMapping("/updatePassword")
-    public String showupdatePass() {
-        return "/Hospital/updatePassword";
     }
 
     @PostMapping("/updatePassword")

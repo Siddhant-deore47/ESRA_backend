@@ -20,6 +20,9 @@ public interface PoliceStationRepository extends JpaRepository<PoliceStation,Int
     @Query("select p from PoliceStation p where p.id =: id")
     PoliceStation findPoliceStationById(int id);
 
+
+    PoliceStation findById(int id);
+
     @Query("select p from PoliceStation p where p.coordinates=:nearestcoordinates")
     PoliceStation findPoliceStationByCoordinates(StationCoordinates nearestcoordinates);
     @Query("select a from Accidents a where a.nearestPoliceStation=:p")

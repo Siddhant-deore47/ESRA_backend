@@ -8,7 +8,7 @@ public class Report {
     private String latitude;
     private String longitude;
 
-    private String count;
+    private int count;
 
     public Report() {
     }
@@ -45,11 +45,11 @@ public class Report {
         this.longitude = longitude;
     }
 
-    public String getCount() {
+    public int getCount() {
         return count;
     }
 
-    public void setCount(String count) {
+    public void setCount(int count) {
         this.count = count;
     }
 }

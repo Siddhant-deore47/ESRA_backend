@@ -47,7 +47,7 @@ public class ExtraController {
         String vehicleNo = report.getVehicleNo();
         String latitude = report.getLatitude();
         String longitude = report.getLongitude();
-        String count = report.getCount();
+        int count = report.getCount();
         AccidentCoordinates ac = new AccidentCoordinates(Double.parseDouble(latitude), Double.parseDouble(longitude));
         PoliceStation nearestStation = stationService.fetchPoliceStationByCoordinates(Double.parseDouble(latitude),Double.parseDouble(longitude));
         Hospital nearestHospital = stationService.fetchHospitalByCoordinates(Double.parseDouble(latitude),Double.parseDouble(longitude));
@@ -60,9 +60,9 @@ public class ExtraController {
         userService.addAccident(a, c);
         return ResponseEntity.of(Optional.of(nearestHospital));
     }
-
-    @GetMapping("/feedback")
-    public List<Feedback> getFeedback(){
-        return feedbackService.getfeedback();
-    }
+//
+//    @GetMapping("/feedback")
+//    public List<Feedback> getFeedback(){
+//        return feedbackService.getfeedback();
+//    }
 }

@@ -16,6 +16,10 @@ public interface HospitalRepository extends JpaRepository<Hospital,Integer> {
 
     @Query("select h from Hospital h where h.id =: hid")
     Hospital findHospitalById(int hid);
+
+
+
+    Hospital findById(int hid);
     @Query("select h from Hospital h where h.hospitalCoordinates=:nearestcoordinates")
     Hospital findHospitalByCoordinates(HospitalCoordinates nearestcoordinates);
 }
